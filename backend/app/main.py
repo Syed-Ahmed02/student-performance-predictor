@@ -16,12 +16,11 @@ allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",
 # Add CORS middleware to handle browser preflight requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=["*"],  #
     allow_credentials=True,
     allow_methods=["*"],  
     allow_headers=["*"], 
 )
-
 class StudentData(BaseModel):
     hours_studied: int
     previous_scores: int
