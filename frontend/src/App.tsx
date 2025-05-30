@@ -39,7 +39,8 @@ function App() {
     e.preventDefault();
     console.log("Student Performance Data:", formData);
     try {
-      const res = await fetch("http://127.0.0.1:8000/predict_performance", {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://127.0.0.1:8000";
+      const res = await fetch(`${backendUrl}/predict_performance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

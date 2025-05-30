@@ -1,14 +1,22 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from analysis import predict_linear_regression
-
+from dotenv import load_dotenv
 app = FastAPI()
+
+
+from .model import predict_linear_regression
+
+load_dotenv(dotenv_path="../.env")
+
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 
 # Add CORS middleware to handle browser preflight requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  #
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],  
     allow_headers=["*"], 
@@ -20,6 +28,10 @@ class StudentData(BaseModel):
     extracurricular_activities: bool
     sleep_hours: int
     sample_papers_practiced: int
+
+@app.get("/")
+def health_check():
+    return {"health_check":"OK"}
 
 @app.post("/predict_performance")
 async def predict_performance(data: StudentData):
