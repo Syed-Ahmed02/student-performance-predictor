@@ -29,9 +29,14 @@ class StudentData(BaseModel):
     sleep_hours: int
     sample_papers_practiced: int
 
+
 @app.get("/")
-def health_check():
-    return {"health_check":"OK"}
+def read_root():
+    return {"Hello": "World"}
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
 
 @app.post("/predict_performance")
 async def predict_performance(data: StudentData):
